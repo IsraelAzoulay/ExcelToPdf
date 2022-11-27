@@ -26,3 +26,19 @@ for filepath in filepaths:
     pdf.cell(w=50, h=8,txt=f"Invoices nr.{invoices_nr}")
     # Storing the pdf file that we just generated, in the 'PDFs' directory.
     pdf.output(f"PDFs/{filename}.pdf")
+
+
+txt_pdf = FPDF(orientation="portrait", unit="mm", format="A4")
+txt_filepaths = glob.glob("TEXTs_Files/*.txt")
+for filepath in txt_filepaths:
+    filename = Path(filepath).stem
+    name = filename.capitalize()
+
+    txt_pdf.add_page()
+    txt_pdf.set_font(family="Times", style="B", size=16)
+    txt_pdf.cell(w=50, h=8, txt=name, ln=1)
+
+txt_pdf.output("output.pdf")
+
+
+
