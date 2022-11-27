@@ -17,15 +17,29 @@ for filepath in filepaths:
 
     # Extracting the name of the file without it's start and extention by using the 'stem()' func.
     filename = Path(filepath).stem
-    # Extracting the first part of the file's name.
-    invoices_nr = filename.split("-")[0]
+    # Extracting the invoice number and the date separately.
+    invoices_nr, date = filename.split("-")
 
     pdf.add_page()
+    # Displaying the invoice number, on the PDF file.
     pdf.set_font(family="Times", style="B", size=16)
-    # Creating the header of the pdf file.
-    pdf.cell(w=50, h=8,txt=f"Invoices nr.{invoices_nr}")
+    pdf.cell(w=50, h=8,txt=f"Invoices nr.{invoices_nr}", ln=1)
+    # Displaying the date of that invoice, on the PDF file.
+    pdf.set_font(family="Times", style="B", size=16)
+    pdf.cell(w=50, h=8,txt=f"Invoices nr.{date}")
+
+
+
     # Storing the pdf file that we just generated, in the 'PDFs' directory.
     pdf.output(f"PDFs/{filename}.pdf")
+
+
+
+
+
+
+
+
 
 
 txt_pdf = FPDF(orientation="portrait", unit="mm", format="A4")
