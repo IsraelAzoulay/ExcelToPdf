@@ -12,22 +12,53 @@ from pathlib import Path
 filepaths = glob.glob("invoices/*.xlsx")
 
 for filepath in filepaths:
-    df = pd.read_excel(filepath, sheet_name="Sheet 1")
+    # Creating the pdf object.
     pdf = FPDF(orientation="portrait", unit="mm", format="A4")
 
-    # Extracting the name of the file without it's start and extention by using the 'stem()' func.
+    # Extracting the name of the file without it's start and extension by using the 'stem()' func.
     filename = Path(filepath).stem
     # Extracting the invoice number and the date separately.
     invoices_nr, date = filename.split("-")
 
+    # Creating the pdf page.
     pdf.add_page()
     # Displaying the invoice number, on the PDF file.
     pdf.set_font(family="Times", style="B", size=16)
-    pdf.cell(w=50, h=8,txt=f"Invoices nr.{invoices_nr}", ln=1)
+    pdf.cell(w=50, h=8, txt=f"Invoices nr.{invoices_nr}", ln=1)
     # Displaying the date of that invoice, on the PDF file.
     pdf.set_font(family="Times", style="B", size=16)
-    pdf.cell(w=50, h=8,txt=f"Invoices nr.{date}")
+    pdf.cell(w=50, h=8, txt=f"Date: {date}", ln=1)
 
+    # Reading the 'xlsx' files content. The 'df' variable contains now all the content in a table.
+    df = pd.read_excel(filepath, sheet_name="Sheet 1")
+
+    # Extracting all the headers of the table. We convert it to a 'list' because 'df.columns' returns
+    # all the columns as an 'index' type.
+    header_columns = list(df.columns)
+    # Replacing and titling all the columns headers.
+    header_columns = [item.replace("_", " ").title() for item in header_columns]
+    # Displaying all the columns headers in a table on the pdf.
+    pdf.set_font(family="Times", style="B", size=10)
+    # Setting the color to grey.
+    pdf.set_text_color(80, 80, 80)
+    # The 'row' variable returns an 'int' so we convert it to 'str'.
+    pdf.cell(w=30, h=8, txt=header_columns[0], border=1)
+    pdf.cell(w=70, h=8, txt=header_columns[1], border=1)
+    pdf.cell(w=30, h=8, txt=header_columns[2], border=1)
+    pdf.cell(w=30, h=8, txt=header_columns[3], border=1)
+    pdf.cell(w=30, h=8, txt=header_columns[4], border=1, ln=1)
+
+    # Extracting all the rest of the table's content by itirating over each row in the 'df' table variable.
+    for index, row in df.iterrows():
+        pdf.set_font(family="Times", size=10)
+        # Setting the color to grey.
+        pdf.set_text_color(80, 80, 80)
+        # The 'row' variable returns an 'int' so we convert it to 'str'.
+        pdf.cell(w=30, h=8, txt=str(row["product_id"]), border=1)
+        pdf.cell(w=70, h=8, txt=str(row["product_name"]), border=1)
+        pdf.cell(w=30, h=8, txt=str(row["amount_purchased"]), border=1)
+        pdf.cell(w=30, h=8, txt=str(row["price_per_unit"]), border=1)
+        pdf.cell(w=30, h=8, txt=str(row["total_price"]), border=1, ln=1)
 
 
     # Storing the pdf file that we just generated, in the 'PDFs' directory.
@@ -42,17 +73,6 @@ for filepath in filepaths:
 
 
 
-txt_pdf = FPDF(orientation="portrait", unit="mm", format="A4")
-txt_filepaths = glob.glob("TEXTs_Files/*.txt")
-for filepath in txt_filepaths:
-    filename = Path(filepath).stem
-    name = filename.capitalize()
-
-    txt_pdf.add_page()
-    txt_pdf.set_font(family="Times", style="B", size=16)
-    txt_pdf.cell(w=50, h=8, txt=name, ln=1)
-
-txt_pdf.output("output.pdf")
 
 
 
