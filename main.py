@@ -4,7 +4,7 @@
 import pandas as pd
 import glob
 from fpdf import FPDF
-# Library for extracting the file's name without it's start and extention.
+# Library for extracting the file's name without it's start.
 from pathlib import Path
 
 
@@ -17,7 +17,7 @@ for filepath in filepaths:
 
     # Extracting the name of the file without it's start and extension by using the 'stem()' func.
     filename = Path(filepath).stem
-    # Extracting the invoice number and the date separately.
+    # Extracting the invoice number and the date separately. (The 'split()' func returns a list).
     invoices_nr, date = filename.split("-")
 
     # Creating the pdf page.
