@@ -1,2 +1,6 @@
+# Project's Name:
+Sheet2Receipt
 # What is this project?
-This is an app that creates PDF invoices out of Excel files.
+Creates PDF invoices out of Excel files.
+# IDE:
+Pycharm.
