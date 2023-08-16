@@ -1,5 +1,3 @@
-# Fourth program - Creates PDF invoices out of Excel files.
-
 # In order to read 'xlsx' files there is a need to import pandas and install the 'openpyxl' package.
 import pandas as pd
 import glob
