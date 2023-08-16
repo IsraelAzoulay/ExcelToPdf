@@ -1,5 +1,3 @@
-# Fourth program - Creates PDF invoices out of Excel files.
-
 # In order to read 'xlsx' files there is a need to import pandas and install the 'openpyxl' package.
 import pandas as pd
 import glob
@@ -75,8 +73,7 @@ for filepath in filepaths:
 
     # Displaying the company name and logo on the PDF file.
     pdf.set_font(family="Times", size=14, style="B")
-    pdf.cell(w=25, h=8, txt=f"PythonHow")
-    pdf.image("pythonhow.png", w=10)
+    pdf.cell(w=25, h=8, txt=f"Sheet2Receipt")
 
     # Storing the pdf file that we just generated, in the 'PDFs' directory.
     pdf.output(f"PDFs/{filename}.pdf")
